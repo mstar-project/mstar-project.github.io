@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="minimal">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>M*: A Modular, Extensible, Serving System for Multimodal Models</title>
+<meta name="description" content="M* is a universal serving system for composite, any-to-any multimodal models. Models are dataflow graphs; requests are Walks. One runtime serves image, audio, video, and robot-action models at or above the performance of specialized engines." />
+<!-- TODO(before publish): set canonical + absolute OG URLs and an OG image -->
+<meta property="og:title" content="M*: One Serving System for Any-to-Any Multimodal Models" />
+<meta property="og:description" content="Composite models broke the single-loop assumption behind LLM serving. The Walk Graph fixes it." />
+<meta property="og:type" content="article" />
+<meta property="og:image" content="assets/img/fig_system.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<!-- set theme ASAP to avoid flash; enable progressive-enhancement reveal -->
+<script>
+(function(){try{var t=localStorage.getItem('mstar-theme')||'minimal';document.documentElement.setAttribute('data-theme',t);}catch(e){}document.documentElement.className+=' js';})();
+</script>
+<link rel="stylesheet" href="assets/css/base.css" />
+<link rel="stylesheet" href="assets/css/theme-minimal.css" />
+<link rel="stylesheet" href="assets/css/theme-bold.css" />
+<style>
+  /* placement-diagram GPU badges (uses theme --gpu* vars) */
+  #placediagram .badge-bg { rx: 11; }
+  .node .badge-bg { fill: var(--muted); }
+  .node.g0 .badge-bg { fill: var(--gpu0); }
+  .node.g1 .badge-bg { fill: var(--gpu1); }
+  .node.g2 .badge-bg { fill: var(--gpu2); }
+  .node.g12 .badge-bg { fill: var(--gpu1); }
+  .node text.gpu-badge { fill: #fff; font: 700 11px var(--font-mono); }
+</style>
+<script defer src="assets/js/theme.js"></script>
+<script defer src="assets/js/animations.js"></script>
+</head>
+<body>
+
+<!-- ===================== top bar ===================== -->
+<header class="topbar">
+  <div class="wrap">
+    <span class="brand">M<span class="star">&#42;</span></span>
+    <nav class="topnav">
+      <a class="nav-hide" href="#idea">The idea</a>
+      <a class="nav-hide" href="#unlocks">What it unlocks</a>
+      <a class="nav-hide" href="#results">Results</a>
+      <a class="nav-hide" href="#start">Get started</a>
+      <span class="theme-toggle" role="group" aria-label="Color theme">
+        <button data-theme-set="minimal" aria-pressed="true">Minimal</button>
+        <button data-theme-set="bold" aria-pressed="false">Bold</button>
+      </span>
+    </nav>
+  </div>
+</header>
+
+<!-- ===================== hero / hub ===================== -->
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <h1>M*: A Modular, Extensible, Serving System for Multimodal Models</h1>
+        <p class="lead">Composite models broke the single-loop assumption behind LLM serving.
+          <strong>Models are graphs; requests are Walks.</strong> M* is built on exactly that.</p>
+        <p class="byline" style="color:var(--hero-heading); font-size:1.02rem; line-height:1.55; margin-bottom:.35em">Atindra Jha, Naomi Sagan, Keisuke Kamahori, Irmak Sivgin, Rohan Sanda, Steven Gao, Mark Horowitz, Luke Zettlemoyer, Olivia Hsu, Jure Leskovec, Stephanie Wang, Baris Kasikci</p>
+        <p class="byline" style="margin-top:0">Stanford University &nbsp;·&nbsp; University of Washington &nbsp;·&nbsp; Correspondence: <a href="mailto:atindra@cs.stanford.edu">atindra@cs.stanford.edu</a></p>
+        <div class="btnrow">
+          <!-- TODO(before publish): real arXiv id, GitHub org, docs URL -->
+          <a class="btn btn-primary" href="https://arxiv.org/abs/XXXX.XXXXX">Read the paper <span class="tag">arXiv</span></a>
+          <a class="btn btn-ghost" href="https://github.com/your-org/mminf">Code <span class="tag">GitHub</span></a>
+          <a class="btn btn-ghost" href="#start">Docs <span class="tag">guide</span></a>
+        </div>
+      </div>
+      <div class="diagram" aria-label="Animated walk-graph diagram">
+        <svg id="heroflow" viewBox="0 0 760 300" role="img" aria-label="A request walking a model's computation graph">
+          <defs>
+            <marker id="arrow" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto" markerUnits="strokeWidth">
+              <path d="M0,0 L7,3 L0,6 Z" fill="var(--edge)"></path>
+            </marker>
+          </defs>
+          <!-- edges -->
+          <path class="edge" id="hfe-text" marker-end="url(#arrow)" d="M144,67 C 215,80 235,140 278,150"></path>
+          <path class="edge" id="hfe-vit"  marker-end="url(#arrow)" d="M144,221 C 215,205 235,168 278,160"></path>
+          <path class="edge" id="hfe-flow" marker-end="url(#arrow)" d="M420,144 C 470,120 482,90 518,72"></path>
+          <path class="edge" id="hfe-vae"  marker-end="url(#arrow)" d="M605,98 L605,194"></path>
+          <path class="edge" id="hfe-dec"  marker-end="url(#arrow)" d="M330,120 C 322,84 384,84 374,118"></path>
+          <text class="sub" x="392" y="104">decode</text>
+          <text class="sub" x="676" y="225" text-anchor="start">&#8594; image</text>
+          <!-- nodes -->
+          <g class="node n-enc" id="hf-text"><rect x="24" y="42" width="120" height="50" rx="10"></rect><text x="84" y="66" text-anchor="middle">Text</text><text x="84" y="82" text-anchor="middle">encoder</text></g>
+          <g class="node n-enc" id="hf-vit"><rect x="24" y="196" width="120" height="50" rx="10"></rect><text x="84" y="220" text-anchor="middle">ViT</text><text x="84" y="236" text-anchor="middle">encoder</text></g>
+          <g class="node n-bb" id="hf-llm"><rect x="280" y="120" width="140" height="60" rx="11"></rect><text x="350" y="147" text-anchor="middle">LLM</text><text x="350" y="165" text-anchor="middle" class="sub">backbone</text></g>
+          <g class="node n-bb" id="hf-flow"><rect x="520" y="44" width="170" height="52" rx="11"></rect><text x="605" y="68" text-anchor="middle">image_gen</text><text x="605" y="84" text-anchor="middle" class="sub">flow loop &#215;50</text></g>
+          <g class="node n-dec" id="hf-vae"><rect x="545" y="196" width="120" height="50" rx="10"></rect><text x="605" y="220" text-anchor="middle">VAE</text><text x="605" y="236" text-anchor="middle">decoder</text></g>
+        </svg>
+        <p class="diagram-cap" id="hero-cap">A request walks the graph.</p>
+        <div class="legend">
+          <span><i style="background:var(--node-encoder);border-color:var(--node-encoder-bd)"></i>Encoder</span>
+          <span><i style="background:var(--node-backbone);border-color:var(--node-backbone-bd)"></i>Backbone</span>
+          <span><i style="background:var(--node-decoder);border-color:var(--node-decoder-bd)"></i>Decoder</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== body ===================== -->
+<main>
+
+<!-- §1 hook -->
+<section class="section-pad" id="idea">
+  <div class="wrap narrow reveal">
+    <h2>Inference is no longer a single loop</h2>
+    <p>We have entered an era of <strong>composite model architectures</strong>: models built from
+      structurally distinct components — vision encoders, transformer backbones, diffusion and flow
+      heads, audio codecs, action generators, world-model predictors — composed and executed in patterns
+      that change with the input and the task. Across all of them, one assumption no longer holds:
+      <em>that inference is a single autoregressive loop</em> &mdash; prefill the prompt, then decode one
+      token at a time until the model stops.</p>
+    <p>Five families make this concrete, and each bends the execution shape a different way:</p>
+    <ul class="chips">
+      <li class="chip"><b>UMMs</b> &mdash; BAGEL</li>
+      <li class="chip"><b>SpeechLMs</b> &mdash; Orpheus</li>
+      <li class="chip"><b>Omni</b> &mdash; Qwen3-Omni</li>
+      <li class="chip"><b>VLAs</b> &mdash; &#960;0.5</li>
+      <li class="chip"><b>World models</b> &mdash; V-JEPA&nbsp;2</li>
+    </ul>
+    <p>Modern models add <strong>non-AR loops</strong> (diffusion / rectified-flow image generation,
+      variable-horizon world-model rollouts), <strong>internal parallelism</strong> (the conditional
+      branches of classifier-free guidance; the pipelined Thinker&ndash;Talker of an omni model), and
+      <strong>input-dependent paths</strong> (in BAGEL, image <em>generation</em> and image
+      <em>understanding</em> traverse different components of the <em>same</em> model). These are not
+      exceptions bolted onto a token-centric core — they are becoming the standard structure.</p>
+  </div>
+  <div class="wrap narrow reveal">
+    <figure>
+      <img src="assets/img/fig_model_arch.png" alt="BAGEL and Qwen3-Omni drawn as component graphs" loading="lazy" />
+      <figcaption><strong>Figure 1.</strong> Example architectures — a UMM (BAGEL) and an Omni model
+        (Qwen3-Omni). Structurally diverse, yet each is naturally a graph of components.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- §2 why existing systems fall short -->
+<section class="section-pad">
+  <div class="wrap narrow reveal">
+    <h2>Why today's serving stacks fall short</h2>
+    <p>Composite models pose three challenges at once: <strong>architectural diversity</strong> (many
+      paths, non-AR loops), <strong>performant modularity</strong> (HuggingFace Transformers is flexible
+      but slow; vLLM and VoxServe are fast but domain-locked), and <strong>physical topology</strong>
+      (heterogeneous components want different placement, batching, and transport).</p>
+    <p><strong>vLLM and SGLang</strong> are superb at autoregressive text generation, but they treat
+      multimodal inputs as prefill-time encoder add-ons: an encoder runs, its embeddings are spliced into
+      the token stream, and a single decode loop produces the output &mdash; which is always text. They
+      have no first-class way to compose heterogeneous components into loops and parallel branches, no
+      branch parallelism such as CFG fan-out, and no cross-component streaming.
+      <strong>vLLM-Omni and SGLang-Omni</strong> go further, modeling a request as a flat pipeline of
+      stages wired by explicit data-transfer functions &mdash; enough for a Thinker&ndash;Talker&ndash;codec
+      chain. But iteration stays inside a single stage, stages can't be composed in parallel, and resources
+      are assigned per whole stage. The patterns composite models actually need &mdash; diffusion loops,
+      CFG fan-out, custom cross-component streaming &mdash; come back as per-model glue code (in vLLM-Omni,
+      for instance, BAGEL's CFG runs through a bespoke plugin built on <code>torch.distributed</code>).</p>
+    <div class="tablewrap card reveal">
+      <table>
+        <thead><tr><th>&nbsp;</th><th>vLLM-Omni</th><th>SGLang-Omni</th><th>M* (ours)</th></tr></thead>
+        <tbody>
+          <tr><td>Graph node</td><td>Engine-instance stage</td><td>Worker-pool stage</td><td class="ours">Model component</td></tr>
+          <tr><td>Composition</td><td>Flat DAG</td><td>Flat DAG</td><td class="ours">Seq. / Par. / Loop / Stream</td></tr>
+          <tr><td>Paths per model</td><td>Prefill, decode</td><td>Prefill, decode</td><td class="ours">Flexible</td></tr>
+          <tr><td>Loops</td><td>Within a stage</td><td>Within a stage</td><td class="ours">Across any subgraph</td></tr>
+          <tr><td>Placement</td><td>Stage</td><td>Stage</td><td class="ours">Component, w/ optional Walk</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="codecap">Table 1. Each prior abstraction is a restricted subset of the Walk Graph.</p>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- §3 the idea -->
+<section class="section-pad">
+  <div class="wrap narrow reveal">
+    <h2>Models are graphs, requests are Walks</h2>
+    <p>M* is built on a single contract. A model is declared as a tuple <strong>(G, W)</strong>:
+      a directed computation graph <code>G = (N, E)</code> of component <strong>nodes</strong> and tensor
+      <strong>edges</strong>, plus a finite set of named <strong>Walks</strong> <code>W</code> — each a
+      labeled subgraph for one phase of behavior (<code>prefill_text</code>, <code>decode</code>,
+      <code>image_gen</code>). A request is a <em>series of Walks</em>, chosen by a small state machine the
+      model author provides. Image understanding, for instance, is
+      <code>[prefill_text &#8594; prefill_vit &#8594; decode]</code>.</p>
+    <p>The author writes only <strong>(G, W)</strong> and that state machine. Everything physical —
+      placement, scheduling, batching, tensor transport, streaming — is the runtime's job. Graphs are
+      built from four composable primitives:</p>
+    <ul class="features">
+      <li><h4>Sequential</h4><p>A chain where each subgraph's outputs feed the next.</p></li>
+      <li><h4>Parallel</h4><p>A fan-out of children that may execute concurrently.</p></li>
+      <li><h4>Loop</h4><p>Bounded iteration with per-iteration and accumulated outputs.</p></li>
+      <li><h4>DynamicLoop</h4><p>A Loop with per-request early exit — EOS for AR, rollout horizon for world models.</p></li>
+    </ul>
+    <p>Streaming connections use a <code>StreamingGraphEdge</code> parameterized by a
+      <code>ChunkPolicy</code> (fixed, sliding-window, or left-context) — extensible without touching the
+      runtime.</p>
+
+    <h3>The whole image-generation Walk, as data</h3>
+    <p>Here is BAGEL's image-generation Walk in M*'s graph DSL — a <code>Loop</code> of flow steps over the
+      <code>LLM</code> node feeding a terminal <code>vae_decoder</code> that emits the image. It reads like
+      a description of the model, because that is exactly what it is.</p>
+<pre><span class="cmt"># Simplified, non-CFG image-generation Walk for BAGEL</span>
+image_gen = <span class="fn">Sequential</span>([
+    <span class="fn">Loop</span>(section=<span class="fn">GraphNode</span>(name=<span class="str">"LLM"</span>, input_ids={<span class="str">"latents"</span>, <span class="str">"time_index"</span>},
+                           outputs=[<span class="fn">GraphEdge</span>(next_node=<span class="str">"LLM"</span>, name=<span class="str">"latents"</span>),
+                                    <span class="fn">GraphEdge</span>(next_node=<span class="str">"LLM"</span>, name=<span class="str">"time_index"</span>)]),
+         n_iters=<span class="kw">49</span>, outputs=[<span class="fn">GraphEdge</span>(next_node=<span class="str">"vae_decoder"</span>, name=<span class="str">"latents"</span>)]),
+    <span class="fn">GraphNode</span>(name=<span class="str">"vae_decoder"</span>, input_ids={<span class="str">"latents"</span>},
+              outputs=[<span class="fn">GraphEdge</span>(next_node=EMIT_TO_CLIENT, name=<span class="str">"image_output"</span>)]),
+])</pre>
+    <p class="codecap">Simplified for readability; the real definition lives in <code>mminf/model/bagel/bagel_model.py</code>.</p>
+    <figure>
+      <img src="assets/img/fig_bagel_example.png" alt="BAGEL as seven nodes and six Walks" loading="lazy" />
+      <figcaption><strong>Figure 2.</strong> BAGEL expressed in M*: seven nodes
+        (<code>vit_encoder, vae_encoder, LLM, LLM_cfg_text, LLM_cfg_img, combine_cfg, vae_decoder</code>)
+        and six Walks across them.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- §4 what it unlocks -->
+<section class="section-pad" id="unlocks">
+  <div class="wrap narrow reveal">
+    <h2>What the Walk Graph unlocks</h2>
+    <p>Decoupling the model from the runtime is not just tidy — it is where the performance comes from.</p>
+    <ul class="features">
+      <li><h4>Modality-aware scheduling</h4><p>The scheduler runs <span class="k">only the components a
+        request needs</span> — never the diffusion path for a text answer.</p></li>
+      <li><h4>Flexible parallelism</h4><p>Authors express parallelism <em>in the graph</em> with
+        <code>Parallel</code> — e.g. the three CFG branches — and the runtime executes it uniformly.</p></li>
+      <li><h4>Flexible placement</h4><p>Map each node to GPU rank(s): disaggregation, prefill/decode split,
+        independent scaling, transparent multiplexing of one replica across Walks.</p></li>
+      <li><h4>Loop optimizations</h4><p>CUDA graphs and continuous batching stay <span class="k">agnostic
+        to loops</span>; the scheduler can interleave flow steps with AR decode on the shared backbone.</p></li>
+      <li><h4>Flexible streaming</h4><p>One <code>ChunkPolicy</code> interface covers every streaming edge
+        in our evaluation, from Thinker&#8594;Talker to Talker&#8594;Code2Wav.</p></li>
+      <li><h4>Sharding &#215; disaggregation</h4><p>Tensor-parallel <em>sharding</em> composes with
+        component <em>disaggregation</em> — split one big component across GPUs <em>and</em> place the rest
+        independently. <em>(More below.)</em></p></li>
+    </ul>
+
+    <h3>Internal parallelism as a primitive: CFG</h3>
+    <p>Classifier-free guidance needs three forward passes per denoising step. In M* that is just a
+      <code>Parallel</code> block of three branches that merge at <code>combine_cfg</code> and loop —
+      one GPU per branch if you want. No runtime glue code.</p>
+
+    <div class="diagram" aria-label="CFG fan-out animation">
+      <svg id="cfgflow" viewBox="0 0 760 232" role="img" aria-label="Three CFG branches running in parallel and merging">
+        <defs>
+          <marker id="arrow2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto" markerUnits="strokeWidth">
+            <path d="M0,0 L7,3 L0,6 Z" fill="var(--edge)"></path>
+          </marker>
+        </defs>
+        <text class="sub" x="40" y="18">Parallel &mdash; one GPU per branch</text>
+        <path class="edge" marker-end="url(#arrow2)" d="M210,47  C 320,47 330,116 416,116"></path>
+        <path class="edge" marker-end="url(#arrow2)" d="M210,116 L 416,116"></path>
+        <path class="edge" marker-end="url(#arrow2)" d="M210,185 C 320,185 330,116 416,116"></path>
+        <path class="edge" style="stroke-dasharray:5 6" d="M492,139 C 320,214 150,214 40,150" marker-end="url(#arrow2)"></path>
+        <text class="sub" x="250" y="225">latents loop &#215; 50 steps</text>
+        <g class="node n-bb" id="cf-main"><rect x="40" y="24" width="170" height="46" rx="10"></rect><text x="125" y="52" text-anchor="middle">LLM (cond)</text></g>
+        <g class="node n-bb" id="cf-text"><rect x="40" y="93" width="170" height="46" rx="10"></rect><text x="125" y="121" text-anchor="middle">LLM_cfg_text</text></g>
+        <g class="node n-bb" id="cf-img"><rect x="40" y="162" width="170" height="46" rx="10"></rect><text x="125" y="190" text-anchor="middle">LLM_cfg_img</text></g>
+        <g class="node n-dec" id="cf-combine"><rect x="416" y="93" width="160" height="46" rx="10"></rect><text x="496" y="121" text-anchor="middle">combine_cfg</text></g>
+      </svg>
+      <p class="diagram-cap">Three branches fire in parallel each step, then <code>combine_cfg</code> applies the CFG formula + an Euler step and loops the latents back.</p>
+    </div>
+
+<pre><span class="cmt"># The full CFG Walk — three branches in Parallel, one rank each</span>
+image_gen_cfg = <span class="fn">Sequential</span>([
+    <span class="fn">Loop</span>(section=<span class="fn">Sequential</span>([
+        <span class="fn">Parallel</span>([                                <span class="cmt"># 3-branch CFG, 1 branch per GPU</span>
+            <span class="fn">Node</span>(<span class="str">"LLM"</span>,          [latents, t], [<span class="fn">Edge</span>(<span class="str">"combine_cfg"</span>, <span class="str">"v_main"</span>)]),
+            <span class="fn">Node</span>(<span class="str">"LLM_cfg_text"</span>, [latents, t], [<span class="fn">Edge</span>(<span class="str">"combine_cfg"</span>, <span class="str">"v_text"</span>)]),
+            <span class="fn">Node</span>(<span class="str">"LLM_cfg_img"</span>,  [latents, t], [<span class="fn">Edge</span>(<span class="str">"combine_cfg"</span>, <span class="str">"v_img"</span>)]),
+        ]),
+        <span class="fn">Node</span>(<span class="str">"combine_cfg"</span>, [v_main, v_text, v_img],      <span class="cmt"># CFG formula + Euler step</span>
+             [<span class="fn">Edge</span>(<span class="str">"LLM"</span>, <span class="str">"latents"</span>), <span class="fn">Edge</span>(<span class="str">"LLM_cfg_text"</span>, <span class="str">"latents"</span>), <span class="fn">Edge</span>(<span class="str">"LLM_cfg_img"</span>, <span class="str">"latents"</span>)]),
+    ]), n_iters=<span class="kw">50</span>),
+    <span class="fn">Node</span>(<span class="str">"vae_decoder"</span>, [latents], [<span class="fn">Edge</span>(EMIT_TO_CLIENT, <span class="str">"image_output"</span>)]),
+])</pre>
+    <p class="codecap">The "primitive in code" example from the paper's appendix; source: <code>mminf/model/bagel/bagel_model.py</code> (<code>image_gen_cfg</code> Walk).</p>
+
+    <h3>Place it however your cluster wants — including sharding</h3>
+    <p>The <em>same</em> Walk Graph runs under many placements. A deployer maps each node to GPU rank(s);
+      the runtime adapts. Toggle through a few:</p>
+    <div class="diagram" id="placediagram" aria-label="Placement and sharding toggle">
+      <div class="controls" role="group" aria-label="Placement mode">
+        <button data-mode="colocated" aria-pressed="false">Colocated</button>
+        <button data-mode="disaggregated" aria-pressed="true">Disaggregated</button>
+        <button data-mode="pd" aria-pressed="false">Prefill/decode split</button>
+        <button data-mode="sharded" aria-pressed="false">Sharding &#215; disaggregation</button>
+      </div>
+      <svg viewBox="0 0 760 170" role="img" aria-label="Encoders, backbone, and decoder placed across GPUs">
+        <defs>
+          <marker id="arrow3" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto" markerUnits="strokeWidth">
+            <path d="M0,0 L7,3 L0,6 Z" fill="var(--edge)"></path>
+          </marker>
+        </defs>
+        <path class="edge" marker-end="url(#arrow3)" d="M184,99 L300,99"></path>
+        <path class="edge" marker-end="url(#arrow3)" d="M460,99 L576,99"></path>
+        <g class="node n-enc g0" id="pl-enc">
+          <rect x="24" y="60" width="160" height="78" rx="11"></rect>
+          <text x="104" y="90" text-anchor="middle">Encoders</text>
+          <rect class="badge-bg" x="44" y="104" width="120" height="22"></rect>
+          <text class="gpu-badge" id="pl-enc-badge" x="104" y="119" text-anchor="middle">GPU 0</text>
+        </g>
+        <g class="node n-bb g1" id="pl-llm">
+          <rect x="300" y="60" width="160" height="78" rx="11"></rect>
+          <text x="380" y="90" text-anchor="middle">LLM backbone</text>
+          <rect class="badge-bg" x="320" y="104" width="120" height="22"></rect>
+          <text class="gpu-badge" id="pl-llm-badge" x="380" y="119" text-anchor="middle">GPU 1</text>
+        </g>
+        <g class="node n-dec g2" id="pl-dec">
+          <rect x="576" y="60" width="160" height="78" rx="11"></rect>
+          <text x="656" y="90" text-anchor="middle">Decoder</text>
+          <rect class="badge-bg" x="596" y="104" width="120" height="22"></rect>
+          <text class="gpu-badge" id="pl-dec-badge" x="656" y="119" text-anchor="middle">GPU 2</text>
+        </g>
+      </svg>
+      <p class="diagram-cap" id="place-cap">Disaggregated: each component on its own GPU(s) and scaled independently.</p>
+    </div>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- §5 runtime + sharding -->
+<section class="section-pad" id="runtime">
+  <div class="wrap narrow reveal">
+    <h2>A real runtime, not a toy DSL</h2>
+    <p>An HTTP server accepts requests. A <strong>Conductor</strong> (one per server) keeps each request's
+      Walk state and dispatches work to <strong>Workers</strong> (one process per GPU rank) over ZeroMQ;
+      workers route tensors directly to downstream workers. The data plane is pluggable — shared memory,
+      RDMA, and TCP via Mooncake. Each node runs on an <strong>engine</strong>: the workhorse
+      <strong>AREngine</strong> (a modality-agnostic transformer with FlashInfer paged-attention KV cache),
+      plus simpler encoder/decoder and audio-codec engines for stateless nodes. All engines support
+      continuous batching and CUDA-graph replay, and the runtime overlaps scheduling with GPU execution by
+      building the next attention plan on a separate stream while the current step runs.</p>
+    <figure>
+      <img src="assets/img/fig_system.png" alt="M* at a glance: model author defines a graph + Walks; the runtime places component subgraphs across GPU workers" loading="lazy" />
+      <figcaption><strong>Figure 3.</strong> M* at a glance. The author defines a computation graph and a
+        set of Walks (left); the runtime places component subgraphs on GPU workers per a user-specified
+        placement (right).</figcaption>
+    </figure>
+    <div class="callout">
+      <p class="eyebrow">New: sharding &#215; disaggregation</p>
+      <p style="margin:0">M* supports <strong>tensor-parallel sharding</strong>: the infrastructure to
+        split a single large component across multiple GPUs is built in (parallel linears, vocab-parallel
+        embeddings, sharded MoE and KV cache, NCCL collectives), configured with a simple <code>tp_size</code>
+        in the placement file. The superpower is <strong>composition</strong>: sharding and granular
+        disaggregation are the same placement API, so you can tensor-parallel-shard, say, a large
+        <strong>Qwen3-Omni</strong> backbone across GPUs <em>while</em> disaggregating its encoders and
+        codec elsewhere. One large component fitting on one GPU is no longer a constraint.</p>
+    </div>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- §6 results -->
+<section class="section-pad" id="results">
+  <div class="wrap narrow reveal">
+    <h2>Matching or beating specialized systems — across modalities</h2>
+    <p><span class="prelim">Preliminary</span> The numbers and plots below are from an early benchmark run
+      and will be refreshed for the public release; treat them as directional.</p>
+    <p>We instantiate M* on five real models and compare against the right baseline for each: vLLM-Omni for
+      BAGEL and Qwen3-Omni, VoxServe for Orpheus, and Meta's native implementation for V-JEPA&nbsp;2.</p>
+    <div class="tablewrap card reveal">
+      <table>
+        <thead><tr><th>Model · task</th><th>Baseline</th><th>Setup</th><th>Headline result</th></tr></thead>
+        <tbody>
+          <tr><td>BAGEL · text&#8594;image</td><td>vLLM-Omni</td><td>3&#215;H100, CFG-parallel, B=1</td><td class="t-win">1.43&#215; lower p50 E2E latency (&#8776;30%)</td></tr>
+          <tr><td>BAGEL · image editing</td><td>vLLM-Omni</td><td>3&#215;H100, CFG-parallel, B=1</td><td class="t-win">1.95&#215; lower p50 E2E latency (&#8776;50%)</td></tr>
+          <tr><td>BAGEL · image&#8594;text</td><td>vLLM-Omni</td><td>1&#215;H100, B&#8804;8</td><td class="t-win">up to 12.1&#215; throughput · 11.5&#215; lower TTFT</td></tr>
+          <tr><td>Qwen3-Omni · TTS</td><td>vLLM-Omni</td><td>2&#215;H200</td><td class="t-win">stays real-time at B=32 (p95 RTF 0.45 vs 1.57) · +15% throughput</td></tr>
+          <tr><td>Orpheus · TTS</td><td>VoxServe</td><td>1&#215;H200</td><td class="t-win">15% lower RTF (B=1) · tighter p95 tail</td></tr>
+          <tr><td>V-JEPA&nbsp;2 · rollout</td><td>Meta native</td><td>1&#215;H100</td><td class="t-win">up to 12.5&#215; faster (H=30)</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>The story behind the numbers is the abstraction: M* runs <em>only the components a request needs</em>
+      (image understanding never touches the diffusion path), expresses <em>internal parallelism</em> as a
+      primitive (CFG), and makes <em>loops first-class with KV caching</em> (the world-model rollout that
+      the baseline recomputes from scratch each step).</p>
+  </div>
+  <div class="wrap reveal">
+    <div class="figgrid">
+      <figure><img src="assets/img/bagel_t2i_i2i_e2e.png" alt="BAGEL text-to-image and image-editing end-to-end latency" loading="lazy" />
+        <figcaption><span class="prelim">Preliminary</span> BAGEL T2I / I2I end-to-end latency, 3&#215;H100, CFG-parallel, B=1. Lower is better.</figcaption></figure>
+      <figure><img src="assets/img/bagel_i2t_ttft.png" alt="BAGEL image-to-text time to first token" loading="lazy" />
+        <figcaption><span class="prelim">Preliminary</span> BAGEL I2T time-to-first-token, 1&#215;H100, B&#8712;{1,4,8} (log scale). Lower is better.</figcaption></figure>
+      <figure><img src="assets/img/qwen3_seedtts.png" alt="Qwen3-Omni Seed-TTS real-time factor and throughput" loading="lazy" />
+        <figcaption><span class="prelim">Preliminary</span> Qwen3-Omni (Seed-TTS), 2&#215;H200: RTF (lower better) and audio throughput (higher better).</figcaption></figure>
+      <figure><img src="assets/img/orpheus_rtf.png" alt="Orpheus TTS real-time factor and throughput" loading="lazy" />
+        <figcaption><span class="prelim">Preliminary</span> Orpheus-TTS, 1&#215;H200: RTF and audio throughput vs VoxServe.</figcaption></figure>
+      <figure><img src="assets/img/vjepa2_rollout.png" alt="V-JEPA 2 action-conditioned rollout latency" loading="lazy" />
+        <figcaption><span class="prelim">Preliminary</span> V-JEPA&nbsp;2-AC rollout, 1&#215;H100, B=1, horizons H&#8712;{4,15,30}. Lower is better.</figcaption></figure>
+      <figure><img src="assets/img/bagel_i2t_throughput.png" alt="BAGEL image-to-text throughput" loading="lazy" />
+        <figcaption><span class="prelim">Preliminary</span> BAGEL I2T throughput (req/s), 1&#215;H100. Higher is better.</figcaption></figure>
+    </div>
+  </div>
+  <div class="wrap narrow reveal">
+    <h3>Real outputs, one runtime</h3>
+    <p>These are produced by M* serving BAGEL — text-to-image and instruction-based image editing.</p>
+    <div class="gallery">
+      <figure><img src="assets/img/sample_t2i.png" alt="BAGEL text-to-image sample served by M*" loading="lazy" /><figcaption>Text&#8594;image</figcaption></figure>
+      <figure><img src="assets/img/sample_edit.png" alt="BAGEL image-editing sample served by M*" loading="lazy" /><figcaption>Image editing</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- §7 coming soon -->
+<section class="section-pad" id="soon">
+  <div class="wrap narrow reveal">
+    <h2>Coming soon</h2>
+    <ul class="roadmap">
+      <li><span class="ic">&#43;</span><span><b>More models, day-zero.</b> More UMMs and omni models
+        (Show-o2, Janus-Pro, Qwen2.5-Omni are design targets), plus additional VLAs and world models —
+        onboarded by writing a Walk Graph.</span></li>
+      <li><span class="ic">&#43;</span><span><b>Sharding everywhere.</b> Tensor-parallel sharding is live
+        today; we are rolling it out across more model families so any component, at any size, scales
+        across GPUs.</span></li>
+      <li><span class="ic">&#43;</span><span><b>More parallelism strategies.</b> Sequence/context
+        parallelism and DiT-specific parallelism expressed through the same placement API.</span></li>
+      <li><span class="ic">&#43;</span><span><b>Unified engine plugins.</b> Converging the AR, encoder/decoder,
+        and audio-codec engines behind one plugin interface (shared KV-cache management, attention
+        backends).</span></li>
+      <li><span class="ic">&#43;</span><span><b>A friendlier front door.</b> An OpenAI-compatible API, a
+        Python SDK, and a one-command quickstart.</span></li>
+      <li><span class="ic">&#43;</span><span><b>Docs &amp; recipes.</b> A full user guide: install, configs,
+        placement cookbooks, and "write a Walk Graph for your model."</span></li>
+    </ul>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- §8 get started -->
+<section class="section-pad" id="start">
+  <div class="wrap narrow reveal">
+    <h2>Get started</h2>
+    <p>Serve any supported model from a placement config, then send a multimodal request:</p>
+<pre><span class="cmt"># serve any supported model from a placement config</span>
+mminf-serve --config configs/bagel.yaml --host 0.0.0.0 --port 8000
+
+<span class="cmt"># text in, text out</span>
+curl -X POST http://localhost:8000/generate -F <span class="str">'text=Hello, how are you?'</span>
+
+<span class="cmt"># text in, image out</span>
+curl -X POST http://localhost:8000/generate \
+     -F <span class="str">'text=a red panda sipping tea'</span> -F <span class="str">'output_modalities=image'</span></pre>
+    <p>Placement is just configuration — logical nodes are decoupled from physical GPUs:</p>
+<pre><span class="kw">model</span>: <span class="str">"bagel"</span>
+<span class="kw">node_groups</span>:
+  - { node_names: [vit_encoder], ranks: [0] }
+  - { node_names: [vae_encoder, vae_decoder], ranks: [0] }
+  - { node_names: [LLM], ranks: [1] }</pre>
+
+    <div class="btnrow">
+      <a class="btn btn-primary" href="https://arxiv.org/abs/XXXX.XXXXX">Read the paper <span class="tag">arXiv</span></a>
+      <a class="btn btn-ghost" href="https://github.com/your-org/mminf">Code <span class="tag">GitHub</span></a>
+      <a class="btn btn-ghost" href="#">Docs <span class="tag">guide</span></a>
+    </div>
+
+    <h3>Cite</h3>
+<pre>@inproceedings{mstar2026,
+  title     = {M*: A Modular, Extensible, Serving System for Multimodal Models},
+  author    = {Atindra Jha and Naomi Sagan and Keisuke Kamahori and Irmak Sivgin and
+               Rohan Sanda and Steven Gao and Mark Horowitz and Luke Zettlemoyer and
+               Olivia Hsu and Jure Leskovec and Stephanie Wang and Baris Kasikci},
+  year      = {2026},
+  note      = {Preprint}
+}</pre>
+  </div>
+</section>
+
+</main>
+
+<!-- ===================== footer ===================== -->
+<footer class="foot">
+  <div class="wrap">
+    <div class="small">
+      <span class="brand">M<span class="star">&#42;</span></span> &mdash; a universal serving system for
+      composite multimodal models. A collaboration between Stanford University and the University of
+      Washington.<br />Correspondence: <a href="mailto:atindra@cs.stanford.edu">atindra@cs.stanford.edu</a>
+    </div>
+    <div class="small">
+      <a href="https://arxiv.org/abs/XXXX.XXXXX">Paper</a> &nbsp;·&nbsp;
+      <a href="https://github.com/your-org/mminf">Code</a> &nbsp;·&nbsp;
+      <a href="#">Docs</a> &nbsp;·&nbsp;
+      <a href="#idea">Top</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

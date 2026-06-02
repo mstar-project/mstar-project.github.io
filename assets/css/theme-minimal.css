@@ -1,0 +1,49 @@
+/* ============================================================================
+   M* — Minimal theme (default). Light, editorial, research-blog restraint.
+   Serif body + grotesk headings; a single calm indigo accent.
+   ========================================================================== */
+:root, html[data-theme="minimal"] {
+  --maxw: 1080px;
+  --radius: 12px;
+
+  --font-head: -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-body: Georgia, Cambria, "Times New Roman", Times, serif;
+  --font-mono: "SFMono-Regular", Menlo, Consolas, "Liberation Mono", monospace;
+
+  --bg: #ffffff;
+  --surface: #f8f9fb;
+  --surface-2: #f1f3f7;
+  --text: #2b2f36;
+  --muted: #5c636e;
+  --heading: #14171c;
+
+  --accent: #2f56a6;
+  --accent-2: #1f8a70;
+  --on-accent: #ffffff;
+  --accent-soft: #eef2fb;
+  --warn: #b4631a;
+
+  --border: #e3e7ee;
+  --bar-bg: rgba(255,255,255,.82);
+
+  --hero-bg: linear-gradient(180deg, #f7f9fc 0%, #eaeff7 100%);
+  --hero-heading: #14171c;
+  --hero-text: #2b2f36;
+  --hero-muted: #5c636e;
+  --hero-border: #d7deea;
+
+  --shadow: 0 1px 2px rgba(16,24,40,.06), 0 2px 10px rgba(16,24,40,.05);
+
+  /* code (GitHub-light) */
+  --code-bg: #f6f8fa; --code-text: #24292f; --code-border: #e3e7ee;
+  --code-cmt: #6a737d; --code-kw: #cf222e; --code-str: #0a3069; --code-fn: #8250df;
+
+  /* diagram node palette (soft) */
+  --node-encoder: #fdeccf; --node-encoder-bd: #dd9f49;
+  --node-backbone: #dfe6fb; --node-backbone-bd: #5f7bd6;
+  --node-decoder: #d8efe0; --node-decoder-bd: #3ea675;
+  --node-codec: #fbe0ec; --node-codec-bd: #d066a0;
+  --edge: #aab2c0;
+
+  --gpu0: #2f56a6; --gpu1: #1f8a70; --gpu2: #b4631a;
+}

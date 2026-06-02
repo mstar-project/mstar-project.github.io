@@ -1,0 +1,22 @@
+M* — LICENSE (PLACEHOLDER — NOT YET FINALIZED)
+===============================================
+
+The license for this project has not been finalized. Until a license is added
+here, no license is granted: (c) 2026 the M* authors; all rights reserved. A
+final open-source license will be chosen before this repository is made public.
+
+-------------------------------------------------------------------------------
+Reference: licenses used by closely related serving projects (to inform the choice)
+-------------------------------------------------------------------------------
+Verified from the corresponding source checkouts on 2026-06-01:
+
+  Project       License       Source / evidence
+  -----------   -----------   --------------------------------------------------
+  vLLM          Apache-2.0    vllm/LICENSE; pyproject: license = "Apache-2.0"
+  vLLM-Omni     Apache-2.0    vllm-omni/LICENSE; pyproject: license = "Apache-2.0"
+  SGLang        Apache-2.0    sglang/LICENSE
+  SGLang-Omni   Apache-2.0    sglang-omni/LICENSE; pyproject: {text = "Apache-2.0"}
+  Ray           Apache-2.0    ray-project/ray (Apache License 2.0)
+
+Note: the surrounding serving ecosystem is uniformly Apache-2.0, which is the
+natural default for this project. Final decision pending.

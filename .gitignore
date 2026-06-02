@@ -1,0 +1,13 @@
+# OS / editor cruft
+.DS_Store
+**/.DS_Store
+Thumbs.db
+*.swp
+*~
+.idea/
+.vscode/
+
+# keep internal/working notes out of the public repo
+DEPLOY_NOTES.md
+INTERNAL*.md
+*.local.md

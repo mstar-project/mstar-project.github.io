@@ -1,0 +1,59 @@
+/* ============================================================================
+   M* — Bold theme. Dark, branded, "product launch" energy: gradient hero,
+   vivid violet→cyan accents, sans body, larger glows on the diagrams.
+   ========================================================================== */
+html[data-theme="bold"] {
+  --maxw: 1120px;
+  --radius: 16px;
+
+  --font-head: -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-body: -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "SFMono-Regular", Menlo, Consolas, "Liberation Mono", monospace;
+
+  --bg: #0b1020;
+  --surface: #141a2e;
+  --surface-2: #1b2440;
+  --text: #c7d0e0;
+  --muted: #8893ab;
+  --heading: #f3f6fc;
+
+  --accent: #7b61ff;
+  --accent-2: #22d3ee;
+  --on-accent: #ffffff;
+  --accent-soft: rgba(123,97,255,.14);
+  --warn: #f59e0b;
+
+  --border: #26304d;
+  --bar-bg: rgba(11,16,32,.72);
+
+  --hero-bg: radial-gradient(1200px 520px at 82% -10%, rgba(34,211,238,.20), transparent 60%),
+             linear-gradient(135deg, #0d1230 0%, #1a1342 46%, #08222c 100%);
+  --hero-heading: #ffffff;
+  --hero-text: #cdd5e6;
+  --hero-muted: #9aa6c2;
+  --hero-border: rgba(255,255,255,.20);
+
+  --shadow: 0 2px 30px rgba(123,97,255,.22);
+
+  /* code (dark) */
+  --code-bg: #0a0e1c; --code-text: #d7def0; --code-border: #26304d;
+  --code-cmt: #6b7693; --code-kw: #c792ea; --code-str: #c3e88d; --code-fn: #82aaff;
+
+  /* diagram node palette (vivid on dark; near-white node text from base) */
+  --node-encoder: #38301a; --node-encoder-bd: #f0b35b;
+  --node-backbone: #241b4d; --node-backbone-bd: #8b78ff;
+  --node-decoder: #103428; --node-decoder-bd: #3ddc97;
+  --node-codec: #3a1730; --node-codec-bd: #ff79c6;
+  --edge: #46517d;
+
+  --gpu0: #7b61ff; --gpu1: #22d3ee; --gpu2: #f59e0b;
+}
+
+/* a little extra flourish unique to bold */
+html[data-theme="bold"] .hero { box-shadow: inset 0 -1px 0 var(--hero-border); }
+html[data-theme="bold"] .hero h1 {
+  background: linear-gradient(92deg, #ffffff 0%, #c9b8ff 45%, #8be9ff 100%);
+  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+}
+html[data-theme="bold"] figure img { background: #0f1426; }
+html[data-theme="bold"] .btn-primary { box-shadow: 0 6px 24px rgba(123,97,255,.45); }
