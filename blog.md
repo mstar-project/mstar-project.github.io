@@ -16,7 +16,9 @@ lower RTF than both on the Qwen3-Omni TTS workload.*
 
 *Stanford University · University of Washington · Correspondence: [atindra@cs.stanford.edu](mailto:atindra@cs.stanford.edu)*
 
-**[Read the paper (arXiv)](https://arxiv.org/abs/XXXX.XXXXX) · [Code (GitHub)](https://github.com/mstar-project/mstar) · [Docs](https://mstar-project.github.io/docs/)**
+*June 2026*
+
+**[Read the paper (PDF)](https://mstar-project.github.io/mstar.pdf) · [Code (GitHub)](https://github.com/mstar-project/mstar) · [Docs](https://mstar-project.github.io/docs/)**
 
 ---
 
@@ -354,7 +356,7 @@ We instantiate M\* on five real models and compare against the strongest special
 | Orpheus · TTS | VoxServe | 1×H200 | ≈1.3× higher throughput @ B=8 and lower RTF |
 | V-JEPA 2 · rollout | Meta native | 1×H100 | up to 12.5× faster |
 
-*Table 2. Five models, five specialized baselines — M\* matches or beats each.*
+*Table 2. Five models, five specialized baselines — M\* matches or beats each. Benchmarks as of June 2026.*
 
 The wins come from the abstraction. For image generation and editing (Figure 5), M\* runs BAGEL's three-way
 classifier-free guidance as a `Parallel` block spread across three GPUs, and finishes faster than every
@@ -439,7 +441,7 @@ tell us.
 
 M\* is open source. If you build on this work, please cite it:
 
-**[Read the paper (arXiv)](https://arxiv.org/abs/XXXX.XXXXX) · [Code (GitHub)](https://github.com/mstar-project/mstar) · [Docs](https://mstar-project.github.io/docs/)**
+**[Read the paper (PDF)](https://mstar-project.github.io/mstar.pdf) · [Code (GitHub)](https://github.com/mstar-project/mstar) · [Docs](https://mstar-project.github.io/docs/)**
 
 ```bibtex
 @inproceedings{mstar2026,
