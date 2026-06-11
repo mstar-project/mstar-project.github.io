@@ -43,7 +43,7 @@ Use the in-page **Minimal / Bold** toggle to check both themes.
 
 - Write the system name as **M\*** ("M-star").
 - Every performance number carries its context (model, hardware, batch, percentile); keep claims consistent
-  with the paper and the (preliminary) benchmark figures.
+  with the paper and the benchmark figures.
 - Keep code snippets short — they're illustrative and simplified from the real source.
 
 ## Questions / larger changes

@@ -36,8 +36,7 @@ Pages, enable **Settings → Pages** on this repository (serve from the repo roo
 
 ## Status
 
-Pre-release. External links (arXiv, code, docs) are placeholders, and the benchmark figures are
-**preliminary** pending a refreshed run.
+Pre-release. External links (arXiv, code, docs) are placeholders.
 
 ## Authors
 
