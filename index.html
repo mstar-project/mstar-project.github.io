@@ -5,11 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>M*: A Modular, Extensible, Serving System for Multimodal Models</title>
 <meta name="description" content="M* is a universal serving system for composite, any-to-any multimodal models. Models are dataflow graphs; requests are Walks. One runtime serves image, audio, video, and robot-action models at or above the performance of specialized engines." />
-<!-- TODO(before publish): set canonical + absolute OG URLs and an OG image -->
+<link rel="canonical" href="https://mstar-project.github.io/" />
 <meta property="og:title" content="M*: One Serving System for Any-to-Any Multimodal Models" />
 <meta property="og:description" content="Composite models broke the single-loop assumption behind LLM serving. The Walk Graph fixes it." />
 <meta property="og:type" content="article" />
-<meta property="og:image" content="assets/img/fig_system.png" />
+<meta property="og:url" content="https://mstar-project.github.io/" />
+<meta property="og:image" content="https://mstar-project.github.io/assets/img/fig_system.png" />
+<meta name="twitter:image" content="https://mstar-project.github.io/assets/img/fig_system.png" />
 <meta name="twitter:card" content="summary_large_image" />
 <!-- set theme ASAP to avoid flash; enable progressive-enhancement reveal -->
 <script>
@@ -66,10 +68,10 @@
         <p class="byline" style="color:var(--hero-heading); font-size:1.02rem; line-height:1.55; margin-bottom:.35em">Atindra Jha, Naomi Sagan, Keisuke Kamahori, Xikai (Noah) Meng, Luke Zettlemoyer, Olivia Hsu, Jure Leskovec, Baris Kasikci, Stephanie Wang</p>
         <p class="byline" style="margin-top:0">Stanford University &nbsp;·&nbsp; University of Washington &nbsp;·&nbsp; Correspondence: <a href="mailto:atindra@cs.stanford.edu">atindra@cs.stanford.edu</a></p>
         <div class="btnrow">
-          <!-- TODO(before publish): real arXiv id, GitHub org, docs URL -->
+          <!-- TODO(before publish): replace the arXiv id below once the paper is posted -->
           <a class="btn btn-primary" href="https://arxiv.org/abs/XXXX.XXXXX">Read the paper <span class="tag">arXiv</span></a>
-          <a class="btn btn-ghost" href="https://github.com/your-org/mminf">Code <span class="tag">GitHub</span></a>
-          <a class="btn btn-ghost" href="#start">Docs <span class="tag">guide</span></a>
+          <a class="btn btn-ghost" href="https://github.com/mstar-project/mstar">Code <span class="tag">GitHub</span></a>
+          <a class="btn btn-ghost" href="https://mstar-project.github.io/docs/">Docs <span class="tag">guide</span></a>
         </div>
       </div>
       <div class="diagram" aria-label="Animated walk-graph diagram">
@@ -223,12 +225,12 @@
         <span class="kw">return</span> <span class="str">"image_gen"</span>                  <span class="cmt">#   image_gen_cfg when CFG is configured</span>
     <span class="kw">return</span> <span class="str">"decode"</span>                         <span class="cmt"># otherwise, autoregressive text</span></pre>
     <p>Next we'll see how the model author defines the BAGEL graph. If you would rather run it first, go to
-      the <a href="#">quickstart</a>.</p>
+      the <a href="https://mstar-project.github.io/docs/quickstart.html">quickstart</a>.</p>
 
     <p><strong>Start with one node.</strong> A node names its inputs and declares where each output goes.
       BAGEL's <code>vae_decoder</code> takes denoised latents and emits an image to the client:</p>
-<pre><span class="kw">from</span> mminf.graph.base <span class="kw">import</span> GraphNode, GraphEdge
-<span class="kw">from</span> mminf.graph.special_destinations <span class="kw">import</span> EMIT_TO_CLIENT
+<pre><span class="kw">from</span> mstar.graph.base <span class="kw">import</span> GraphNode, GraphEdge
+<span class="kw">from</span> mstar.graph.special_destinations <span class="kw">import</span> EMIT_TO_CLIENT
 
 vae_decoder = <span class="fn">GraphNode</span>(
     name=<span class="str">"vae_decoder"</span>,
@@ -260,7 +262,7 @@ vae_decoder = <span class="fn">GraphNode</span>(
       <code>Loop</code>, which runs its <code>section</code> repeatedly, feeding each step's outputs back as
       the next step's inputs. When the loop finishes, its <code>outputs</code> route forward &mdash; here, the
       latents route to the <code>vae_decoder</code> we just built:</p>
-<pre><span class="kw">from</span> mminf.graph.base <span class="kw">import</span> Sequential, Loop
+<pre><span class="kw">from</span> mstar.graph.base <span class="kw">import</span> Sequential, Loop
 
 image_gen = <span class="fn">Sequential</span>([
     <span class="fn">Loop</span>(
@@ -324,7 +326,7 @@ image_gen = <span class="fn">Sequential</span>([
       <p class="diagram-cap">Three branches fire in parallel each step, then <code>combine_cfg</code> applies the CFG formula + an Euler step and loops the latents back.</p>
     </div>
 
-<pre><span class="kw">from</span> mminf.graph.base <span class="kw">import</span> Parallel
+<pre><span class="kw">from</span> mstar.graph.base <span class="kw">import</span> Parallel
 
 image_gen_cfg = <span class="fn">Sequential</span>([
     <span class="fn">Loop</span>(
@@ -432,8 +434,8 @@ image_gen_cfg = <span class="fn">Sequential</span>([
     <p>In M*, streaming is a first-class edge type: the producer just marks an output as streaming to a
       downstream partition, and a <strong>chunk policy</strong> &mdash; declared once in the model's topology
       and matched to the edge by name &mdash; decides how the consumer reassembles the stream:</p>
-<pre><span class="kw">from</span> mminf.streaming.topology <span class="kw">import</span> Connection, PartitionTopology, StreamingGraphEdge
-<span class="kw">from</span> mminf.streaming.chunk_policy <span class="kw">import</span> FixedChunkPolicy, LeftContextChunkPolicy
+<pre><span class="kw">from</span> mstar.streaming.topology <span class="kw">import</span> Connection, PartitionTopology, StreamingGraphEdge
+<span class="kw">from</span> mstar.streaming.chunk_policy <span class="kw">import</span> FixedChunkPolicy, LeftContextChunkPolicy
 
 <span class="cmt"># Inside the Thinker's walk: hidden states stream to the Talker.</span>
 <span class="fn">StreamingGraphEdge</span>(next_node=<span class="str">"Talker"</span>, name=<span class="str">"thinker_states"</span>, target_partition=<span class="str">"Talker"</span>)
@@ -686,16 +688,16 @@ image_gen_cfg = <span class="fn">Sequential</span>([
   <div class="wrap narrow reveal">
     <h2>Get the code</h2>
     <p><strong>Try it:</strong> install M*, point it at a model with a placement config, and serve in one
-      command (see the <a href="#">quickstart</a>). We'd love your feedback: open a
-      <a href="https://github.com/your-org/mminf">GitHub issue</a>, or email
+      command (see the <a href="https://mstar-project.github.io/docs/quickstart.html">quickstart</a>). We'd love your feedback: open a
+      <a href="https://github.com/mstar-project/mstar">GitHub issue</a>, or email
       <a href="mailto:atindra@cs.stanford.edu">atindra@cs.stanford.edu</a>. If there's a model you'd like to
       see supported, tell us.</p>
     <p>M* is open source. If you build on this work, please cite it:</p>
 
     <div class="btnrow">
       <a class="btn btn-primary" href="https://arxiv.org/abs/XXXX.XXXXX">Read the paper <span class="tag">arXiv</span></a>
-      <a class="btn btn-ghost" href="https://github.com/your-org/mminf">Code <span class="tag">GitHub</span></a>
-      <a class="btn btn-ghost" href="#">Docs <span class="tag">guide</span></a>
+      <a class="btn btn-ghost" href="https://github.com/mstar-project/mstar">Code <span class="tag">GitHub</span></a>
+      <a class="btn btn-ghost" href="https://mstar-project.github.io/docs/">Docs <span class="tag">guide</span></a>
     </div>
 
     <h3>Cite</h3>
@@ -722,8 +724,8 @@ image_gen_cfg = <span class="fn">Sequential</span>([
     </div>
     <div class="small">
       <a href="https://arxiv.org/abs/XXXX.XXXXX">Paper</a> &nbsp;·&nbsp;
-      <a href="https://github.com/your-org/mminf">Code</a> &nbsp;·&nbsp;
-      <a href="#">Docs</a> &nbsp;·&nbsp;
+      <a href="https://github.com/mstar-project/mstar">Code</a> &nbsp;·&nbsp;
+      <a href="https://mstar-project.github.io/docs/">Docs</a> &nbsp;·&nbsp;
       <a href="#idea">Top</a>
     </div>
   </div>

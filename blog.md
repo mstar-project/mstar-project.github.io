@@ -16,7 +16,7 @@ lower RTF than both on the Qwen3-Omni TTS workload.*
 
 *Stanford University · University of Washington · Correspondence: [atindra@cs.stanford.edu](mailto:atindra@cs.stanford.edu)*
 
-**[Read the paper (arXiv)](https://arxiv.org/abs/XXXX.XXXXX) · [Code (GitHub)](https://github.com/your-org/mminf) · [Docs](#)**
+**[Read the paper (arXiv)](https://arxiv.org/abs/XXXX.XXXXX) · [Code (GitHub)](https://github.com/mstar-project/mstar) · [Docs](https://mstar-project.github.io/docs/)**
 
 ---
 
@@ -110,14 +110,14 @@ def next_walk(self, state):
 ```
 
 Next we'll see how the model author defines the BAGEL graph. If you would rather run it first, go to the
-[quickstart](#).
+[quickstart](https://mstar-project.github.io/docs/quickstart.html).
 
 **Start with one node.** A node names its inputs and declares where each output goes. BAGEL's `vae_decoder`
 takes denoised latents and emits an image to the client:
 
 ```python
-from mminf.graph.base import GraphNode, GraphEdge
-from mminf.graph.special_destinations import EMIT_TO_CLIENT
+from mstar.graph.base import GraphNode, GraphEdge
+from mstar.graph.special_destinations import EMIT_TO_CLIENT
 
 vae_decoder = GraphNode(
     name="vae_decoder",
@@ -156,7 +156,7 @@ repeatedly, feeding each step's outputs back as the next step's inputs. When the
 `outputs` route forward — here, the latents route to the `vae_decoder` we just built:
 
 ```python
-from mminf.graph.base import Sequential, Loop
+from mstar.graph.base import Sequential, Loop
 
 image_gen = Sequential([
     Loop(
@@ -199,7 +199,7 @@ node and loop. Each branch can sit on its own GPU; the runtime places and merges
 code (listing lightly simplified):
 
 ```python
-from mminf.graph.base import Parallel
+from mstar.graph.base import Parallel
 
 image_gen_cfg = Sequential([
     Loop(
@@ -284,8 +284,8 @@ partition, and a **chunk policy** — declared once in the model's topology and 
 decides how the consumer reassembles the stream:
 
 ```python
-from mminf.streaming.topology import Connection, PartitionTopology, StreamingGraphEdge
-from mminf.streaming.chunk_policy import FixedChunkPolicy, LeftContextChunkPolicy
+from mstar.streaming.topology import Connection, PartitionTopology, StreamingGraphEdge
+from mstar.streaming.chunk_policy import FixedChunkPolicy, LeftContextChunkPolicy
 
 # Inside the Thinker's walk: hidden states stream to the Talker.
 StreamingGraphEdge(next_node="Talker", name="thinker_states", target_partition="Talker")
@@ -433,13 +433,13 @@ The bigger picture the Walk Graph opens up — three directions we are actively 
 ## Get the code
 
 **Try it:** install M\*, point it at a model with a placement config, and serve in one command (see the
-[quickstart](#)). We'd love your feedback: open a [GitHub issue](https://github.com/your-org/mminf), or email
+[quickstart](https://mstar-project.github.io/docs/quickstart.html)). We'd love your feedback: open a [GitHub issue](https://github.com/mstar-project/mstar), or email
 [atindra@cs.stanford.edu](mailto:atindra@cs.stanford.edu). If there's a model you'd like to see supported,
 tell us.
 
 M\* is open source. If you build on this work, please cite it:
 
-**[Read the paper (arXiv)](https://arxiv.org/abs/XXXX.XXXXX) · [Code (GitHub)](https://github.com/your-org/mminf) · [Docs](#)**
+**[Read the paper (arXiv)](https://arxiv.org/abs/XXXX.XXXXX) · [Code (GitHub)](https://github.com/mstar-project/mstar) · [Docs](https://mstar-project.github.io/docs/)**
 
 ```bibtex
 @inproceedings{mstar2026,
