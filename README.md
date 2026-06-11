@@ -40,7 +40,7 @@ Pre-release. External links (arXiv, code, docs) are placeholders.
 
 ## Authors
 
-Atindra Jha, Naomi Sagan, Keisuke Kamahori, Irmak Sivgin, Rohan Sanda, Steven Gao, Mark Horowitz,
+Atindra Jha, Naomi Sagan, Keisuke Kamahori, Irmak Sivgin, Rohan Sanda, Steven Gao, Xikai(Noah) Meng, Mark Horowitz,
 Luke Zettlemoyer, Olivia Hsu, Jure Leskovec, Stephanie Wang, Baris Kasikci.
 
 Stanford University · University of Washington · Correspondence: <atindra@cs.stanford.edu>
