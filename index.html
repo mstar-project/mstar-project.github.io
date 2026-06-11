@@ -304,7 +304,7 @@ image_gen = <span class="fn">Sequential</span>([
       own GPU; the runtime places and merges them with no per-model glue code (listing lightly simplified):</p>
 
     <div class="diagram" aria-label="CFG fan-out animation">
-      <svg id="cfgflow" viewBox="0 0 760 232" role="img" aria-label="Three CFG branches running in parallel and merging">
+      <svg id="cfgflow" viewBox="-36 0 796 240" role="img" aria-label="Three CFG branches running in parallel and merging">
         <defs>
           <marker id="arrow2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto" markerUnits="strokeWidth">
             <path d="M0,0 L7,3 L0,6 Z" fill="var(--edge)"></path>
@@ -314,8 +314,8 @@ image_gen = <span class="fn">Sequential</span>([
         <path class="edge" marker-end="url(#arrow2)" d="M210,47  C 320,47 330,116 416,116"></path>
         <path class="edge" marker-end="url(#arrow2)" d="M210,116 L 416,116"></path>
         <path class="edge" marker-end="url(#arrow2)" d="M210,185 C 320,185 330,116 416,116"></path>
-        <path class="edge" style="stroke-dasharray:5 6" d="M492,139 C 320,214 150,214 40,150" marker-end="url(#arrow2)"></path>
-        <text class="sub" x="250" y="225">latents loop &#215; 50 steps</text>
+        <path class="edge" style="stroke-dasharray:5 6" d="M492,139 C 260,250 -3,231 -15,195 C -27,159 8,120 40,116" marker-end="url(#arrow2)"></path>
+        <text class="sub" x="250" y="234">latents loop &#215; 50 steps</text>
         <g class="node n-bb" id="cf-main"><rect x="40" y="24" width="170" height="46" rx="10"></rect><text x="125" y="52" text-anchor="middle">LLM (cond)</text></g>
         <g class="node n-bb" id="cf-text"><rect x="40" y="93" width="170" height="46" rx="10"></rect><text x="125" y="121" text-anchor="middle">LLM_cfg_text</text></g>
         <g class="node n-bb" id="cf-img"><rect x="40" y="162" width="170" height="46" rx="10"></rect><text x="125" y="190" text-anchor="middle">LLM_cfg_img</text></g>
