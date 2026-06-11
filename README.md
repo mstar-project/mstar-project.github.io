@@ -4,7 +4,7 @@ Source for the public landing page and blog post for **M\*** ("M-star"), a unive
 composite, any-to-any multimodal models.
 
 > **M\*: A Modular, Extensible, Serving System for Multimodal Models**
-> Paper (arXiv) · Code · Docs — *links added at release.*
+> [Paper](https://mstar-project.github.io/mstar.pdf) · [Code](https://github.com/mstar-project/mstar) · [Docs](https://mstar-project.github.io/mstar/)
 
 This is a **self-contained static site**: no build step, no dependencies. Open `index.html` in a browser,
 or serve the folder:
@@ -29,22 +29,6 @@ The prose lives in **`blog.md`** — the single source of truth for text and fig
 is the styled, animated rendering of that same content. Small wording fixes can be made in both; larger
 edits are made in `blog.md` and then ported into `index.html`. See `CONTRIBUTING.md` for how we collaborate.
 
-## Deploy
-
-Static files — host on GitHub Pages, Netlify, Vercel, Cloudflare Pages, S3, or any web server. For GitHub
-Pages, enable **Settings → Pages** on this repository (serve from the repo root).
-
-## Status
-
-Pre-release. External links (arXiv, code, docs) are placeholders.
-
-## Authors
-
-Atindra Jha, Naomi Sagan, Keisuke Kamahori, Irmak Sivgin, Rohan Sanda, Steven Gao, Xikai(Noah) Meng, Mark Horowitz,
-Luke Zettlemoyer, Olivia Hsu, Jure Leskovec, Stephanie Wang, Baris Kasikci.
-
-Stanford University · University of Washington · Correspondence: <atindra@cs.stanford.edu>
-
 ## License
 
-See `LICENSE`.
+[Apache License 2.0](LICENSE).

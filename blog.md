@@ -420,7 +420,7 @@ native rollout.
 
 ## Coming soon
 
-- **More models, day-zero:** more omni models (Ming-flash-omni-2.0, Qwen3.5-Omni), world models (Cosmos 3), and more VLAs — among others. If you have a model you want to see supported, [get in touch](mailto:atindra@cs.stanford.edu)!
+- **More models, coming soon:** more omni models (Ming-flash-omni-2.0, Qwen3.5-Omni), world models (Cosmos 3), and more VLAs — among others. Want a model supported? [Get in touch](mailto:atindra@cs.stanford.edu) or [open a GitHub issue](https://github.com/mstar-project/mstar/issues).
 - **More parallelism, everywhere:** tensor-parallel sharding is live and rolling out across model families; sequence/context and DiT-specific parallelism are coming soon.
 - **Unified engine plugins:** converging the AR, encoder/decoder, and audio-codec engines behind one interface.
 
@@ -435,7 +435,7 @@ The bigger picture the Walk Graph opens up — three directions we are actively 
 ## Get the code
 
 **Try it:** install M\*, point it at a model with a placement config, and serve in one command (see the
-[quickstart](https://mstar-project.github.io/mstar/quickstart.html)). We'd love your feedback: open a [GitHub issue](https://github.com/mstar-project/mstar), or email
+[quickstart](https://mstar-project.github.io/mstar/quickstart.html)). We'd love your feedback: open a [GitHub issue](https://github.com/mstar-project/mstar/issues), or email
 [atindra@cs.stanford.edu](mailto:atindra@cs.stanford.edu). If there's a model you'd like to see supported,
 tell us.
 
