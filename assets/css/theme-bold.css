@@ -57,3 +57,8 @@ html[data-theme="bold"] .hero h1 {
 }
 html[data-theme="bold"] figure img { background: #0f1426; }
 html[data-theme="bold"] .btn-primary { box-shadow: 0 6px 24px rgba(123,97,255,.45); }
+
+/* Standalone diagram labels use class "sub" but sit outside a .node group, so the
+   base.css `.node .sub` fill never applies and they default to black — invisible on
+   the dark bold background. Give them the theme's muted color. */
+html[data-theme="bold"] text.sub { fill: var(--muted); }

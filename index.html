@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="minimal">
+<html lang="en" data-theme="bold">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -15,7 +15,7 @@
 <meta name="twitter:card" content="summary_large_image" />
 <!-- set theme ASAP to avoid flash; enable progressive-enhancement reveal -->
 <script>
-(function(){try{var t=localStorage.getItem('mstar-theme')||'minimal';document.documentElement.setAttribute('data-theme',t);}catch(e){}document.documentElement.className+=' js';})();
+(function(){try{var t=localStorage.getItem('mstar-theme')||'bold';document.documentElement.setAttribute('data-theme',t);}catch(e){}document.documentElement.className+=' js';})();
 </script>
 <link rel="stylesheet" href="assets/css/base.css" />
 <link rel="stylesheet" href="assets/css/theme-minimal.css" />
@@ -45,8 +45,8 @@
       <a class="nav-hide" href="#results">Results</a>
       <a class="nav-hide" href="#start">Get the code</a>
       <span class="theme-toggle" role="group" aria-label="Color theme">
-        <button data-theme-set="minimal" aria-pressed="true">Minimal</button>
-        <button data-theme-set="bold" aria-pressed="false">Bold</button>
+        <button data-theme-set="minimal" aria-pressed="false">Minimal</button>
+        <button data-theme-set="bold" aria-pressed="true">Bold</button>
       </span>
     </nav>
   </div>
@@ -646,8 +646,8 @@ image_gen_cfg = <span class="fn">Sequential</span>([
   <div class="wrap narrow reveal">
     <h2>Coming soon</h2>
     <ul class="roadmap">
-      <li><span class="ic">&#43;</span><span><b>More models, day-zero.</b> More UMMs and omni models
-        (Show-o2, Janus-Pro, Qwen2.5-Omni are design targets), plus more VLAs and world models. If you have
+      <li><span class="ic">&#43;</span><span><b>More models, day-zero.</b> More omni models
+        (Ming-flash-omni-2.0, Qwen3.5-Omni), world models (Cosmos&nbsp;3), and more VLAs &mdash; among others. If you have
         a model you want to see supported, <a href="mailto:atindra@cs.stanford.edu">get in touch</a>!</span></li>
       <li><span class="ic">&#43;</span><span><b>More parallelism, everywhere.</b> Tensor-parallel sharding is
         live and rolling out across model families; sequence/context and DiT-specific parallelism are coming

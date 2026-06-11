@@ -15,6 +15,6 @@
   });
   // sync button state on load
   document.addEventListener("DOMContentLoaded", function () {
-    apply(document.documentElement.getAttribute("data-theme") || "minimal");
+    apply(document.documentElement.getAttribute("data-theme") || "bold");
   });
 })();
