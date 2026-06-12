@@ -18,7 +18,7 @@ lower RTF than both on the Qwen3-Omni TTS workload.*
 
 *June 2026*
 
-**[Read the paper (PDF)](https://mstar-project.github.io/mstar.pdf) · [Code (GitHub)](https://github.com/mstar-project/mstar) · [Docs](https://mstar-project.github.io/mstar/)**
+**[Read the paper (arXiv)](https://arxiv.org/abs/2606.12688) · [Code (GitHub)](https://github.com/mstar-project/mstar) · [Docs](https://mstar-project.github.io/mstar/)**
 
 ---
 
@@ -441,15 +441,17 @@ tell us.
 
 M\* is open source. If you build on this work, please cite it:
 
-**[Read the paper (PDF)](https://mstar-project.github.io/mstar.pdf) · [Code (GitHub)](https://github.com/mstar-project/mstar) · [Docs](https://mstar-project.github.io/mstar/)**
+**[Read the paper (arXiv)](https://arxiv.org/abs/2606.12688) · [Code (GitHub)](https://github.com/mstar-project/mstar) · [Docs](https://mstar-project.github.io/mstar/)**
 
 ```bibtex
-@inproceedings{mstar2026,
+@article{mstar2026,
   title     = {M*: A Modular, Extensible, Serving System for Multimodal Models},
   author    = {Atindra Jha and Naomi Sagan and Keisuke Kamahori and Irmak Sivgin and
                Rohan Sanda and Steven Gao and Mark Horowitz and Luke Zettlemoyer and
                Olivia Hsu and Jure Leskovec and Baris Kasikci and Stephanie Wang},
   year      = {2026},
-  note      = {Preprint}
+  eprint    = {2606.12688},
+  archivePrefix = {arXiv},
+  primaryClass = {cs.LG}
 }
 ```
