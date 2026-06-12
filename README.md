@@ -4,7 +4,7 @@ Source for the public landing page and blog post for **M\*** ("M-star"), a unive
 composite, any-to-any multimodal models.
 
 > **M\*: A Modular, Extensible, Serving System for Multimodal Models**
-> [Paper](https://mstar-project.github.io/mstar.pdf) · [Code](https://github.com/mstar-project/mstar) · [Docs](https://mstar-project.github.io/mstar/)
+> [Paper](https://arxiv.org/abs/2606.12688) · [Code](https://github.com/mstar-project/mstar) · [Docs](https://mstar-project.github.io/mstar/)
 
 This is a **self-contained static site**: no build step, no dependencies. Open `index.html` in a browser,
 or serve the folder:
