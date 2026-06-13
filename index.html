@@ -3,15 +3,16 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>M*: A Modular, Extensible, Serving System for Multimodal Models</title>
-<meta name="description" content="M* is a universal serving system for composite, any-to-any multimodal models. Models are dataflow graphs; requests are Walks. One runtime serves image, audio, video, and robot-action models at or above the performance of specialized engines." />
-<link rel="canonical" href="https://mstar-project.github.io/" />
+<title>M* (M-star): A Modular, Extensible, Serving System for Multimodal Models</title>
+<meta name="google-site-verification" content="Ym7WaMQx-4UrRha-HpIzbS3jEtvssnB0jWCc_DR_ZJc" />
+<meta name="description" content="M* (M-star) is a universal serving system for composite, any-to-any multimodal models. Models are dataflow graphs; requests are Walks. One runtime serves image, audio, video, and robot-action models at or above the performance of specialized engines." />
+<link rel="canonical" href="https://mstar.stanford.edu/" />
 <meta property="og:title" content="M*: One Serving System for Any-to-Any Multimodal Models" />
 <meta property="og:description" content="Composite models broke the single-loop assumption behind LLM serving. The Walk Graph fixes it." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://mstar-project.github.io/" />
-<meta property="og:image" content="https://mstar-project.github.io/assets/img/fig_system.png" />
-<meta name="twitter:image" content="https://mstar-project.github.io/assets/img/fig_system.png" />
+<meta property="og:url" content="https://mstar.stanford.edu/" />
+<meta property="og:image" content="https://mstar.stanford.edu/assets/img/fig_system.png" />
+<meta name="twitter:image" content="https://mstar.stanford.edu/assets/img/fig_system.png" />
 <meta name="twitter:card" content="summary_large_image" />
 <!-- set theme ASAP to avoid flash; enable progressive-enhancement reveal -->
 <script>
@@ -57,7 +58,7 @@
   <div class="wrap">
     <div class="hero-grid">
       <div>
-        <h1>M*: A Modular, Extensible, Serving System for Multimodal Models</h1>
+        <h1>M* (M-star): A Modular, Extensible, Serving System for Multimodal Models</h1>
         <p class="lead">Today's models no longer fit the mold of autoregressive token generation, but the
           systems supporting LLM inference have not kept up. These models have composite architectures best
           captured by dataflow <strong>graphs</strong>. Requests are just <strong>walks</strong> on these
@@ -71,7 +72,7 @@
         <div class="btnrow">
           <a class="btn btn-primary" href="https://arxiv.org/abs/2606.12688">Read the paper <span class="tag">arXiv</span></a>
           <a class="btn btn-ghost" href="https://github.com/mstar-project/mstar">Code <span class="tag">GitHub</span></a>
-          <a class="btn btn-ghost" href="https://mstar-project.github.io/mstar/">Docs <span class="tag">guide</span></a>
+          <a class="btn btn-ghost" href="https://mstar.stanford.edu/mstar/">Docs <span class="tag">guide</span></a>
         </div>
       </div>
       <div class="diagram" aria-label="Animated walk-graph diagram">
@@ -225,7 +226,7 @@
         <span class="kw">return</span> <span class="str">"image_gen"</span>                  <span class="cmt">#   image_gen_cfg when CFG is configured</span>
     <span class="kw">return</span> <span class="str">"decode"</span>                         <span class="cmt"># otherwise, autoregressive text</span></pre>
     <p>Next we'll see how the model author defines the BAGEL graph. If you would rather run it first, go to
-      the <a href="https://mstar-project.github.io/mstar/quickstart.html">quickstart</a>.</p>
+      the <a href="https://mstar.stanford.edu/mstar/quickstart.html">quickstart</a>.</p>
 
     <p><strong>Start with one node.</strong> A node names its inputs and declares where each output goes.
       BAGEL's <code>vae_decoder</code> takes denoised latents and emits an image to the client:</p>
@@ -689,7 +690,7 @@ image_gen_cfg = <span class="fn">Sequential</span>([
   <div class="wrap narrow reveal">
     <h2>Get the code</h2>
     <p><strong>Try it:</strong> install M*, point it at a model with a placement config, and serve in one
-      command (see the <a href="https://mstar-project.github.io/mstar/quickstart.html">quickstart</a>). We'd love your feedback: open a
+      command (see the <a href="https://mstar.stanford.edu/mstar/quickstart.html">quickstart</a>). We'd love your feedback: open a
       <a href="https://github.com/mstar-project/mstar/issues">GitHub issue</a>, or email
       <a href="mailto:atindra@cs.stanford.edu">atindra@cs.stanford.edu</a>. If there's a model you'd like to
       see supported, tell us.</p>
@@ -698,7 +699,7 @@ image_gen_cfg = <span class="fn">Sequential</span>([
     <div class="btnrow">
       <a class="btn btn-primary" href="https://arxiv.org/abs/2606.12688">Read the paper <span class="tag">arXiv</span></a>
       <a class="btn btn-ghost" href="https://github.com/mstar-project/mstar">Code <span class="tag">GitHub</span></a>
-      <a class="btn btn-ghost" href="https://mstar-project.github.io/mstar/">Docs <span class="tag">guide</span></a>
+      <a class="btn btn-ghost" href="https://mstar.stanford.edu/mstar/">Docs <span class="tag">guide</span></a>
     </div>
 
     <h3>Cite</h3>
@@ -728,7 +729,7 @@ image_gen_cfg = <span class="fn">Sequential</span>([
     <div class="small">
       <a href="https://arxiv.org/abs/2606.12688">Paper</a> &nbsp;·&nbsp;
       <a href="https://github.com/mstar-project/mstar">Code</a> &nbsp;·&nbsp;
-      <a href="https://mstar-project.github.io/mstar/">Docs</a> &nbsp;·&nbsp;
+      <a href="https://mstar.stanford.edu/mstar/">Docs</a> &nbsp;·&nbsp;
       <a href="#idea">Top</a>
     </div>
   </div>

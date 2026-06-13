@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://mstar.stanford.edu/sitemap.xml
