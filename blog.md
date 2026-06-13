@@ -18,7 +18,7 @@ lower RTF than both on the Qwen3-Omni TTS workload.*
 
 *June 2026*
 
-**[Read the paper (arXiv)](https://arxiv.org/abs/2606.12688) · [Code (GitHub)](https://github.com/mstar-project/mstar) · [Docs](https://mstar-project.github.io/mstar/)**
+**[Read the paper (arXiv)](https://arxiv.org/abs/2606.12688) · [Code (GitHub)](https://github.com/mstar-project/mstar) · [Docs](https://mstar.stanford.edu/mstar/)**
 
 ---
 
@@ -112,7 +112,7 @@ def next_walk(self, state):
 ```
 
 Next we'll see how the model author defines the BAGEL graph. If you would rather run it first, go to the
-[quickstart](https://mstar-project.github.io/mstar/quickstart.html).
+[quickstart](https://mstar.stanford.edu/mstar/quickstart.html).
 
 **Start with one node.** A node names its inputs and declares where each output goes. BAGEL's `vae_decoder`
 takes denoised latents and emits an image to the client:
@@ -435,13 +435,13 @@ The bigger picture the Walk Graph opens up — three directions we are actively 
 ## Get the code
 
 **Try it:** install M\*, point it at a model with a placement config, and serve in one command (see the
-[quickstart](https://mstar-project.github.io/mstar/quickstart.html)). We'd love your feedback: open a [GitHub issue](https://github.com/mstar-project/mstar/issues), or email
+[quickstart](https://mstar.stanford.edu/mstar/quickstart.html)). We'd love your feedback: open a [GitHub issue](https://github.com/mstar-project/mstar/issues), or email
 [atindra@cs.stanford.edu](mailto:atindra@cs.stanford.edu). If there's a model you'd like to see supported,
 tell us.
 
 M\* is open source. If you build on this work, please cite it:
 
-**[Read the paper (arXiv)](https://arxiv.org/abs/2606.12688) · [Code (GitHub)](https://github.com/mstar-project/mstar) · [Docs](https://mstar-project.github.io/mstar/)**
+**[Read the paper (arXiv)](https://arxiv.org/abs/2606.12688) · [Code (GitHub)](https://github.com/mstar-project/mstar) · [Docs](https://mstar.stanford.edu/mstar/)**
 
 ```bibtex
 @article{mstar2026,
