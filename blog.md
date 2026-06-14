@@ -14,7 +14,9 @@ lower RTF than both on the Qwen3-Omni TTS workload.*
 
 *Atindra Jha, Naomi Sagan, Keisuke Kamahori, Xikai (Noah) Meng, Luke Zettlemoyer, Olivia Hsu, Jure Leskovec, Baris Kasikci, Stephanie Wang*
 
-*Stanford University · University of Washington · Correspondence: [atindra@cs.stanford.edu](mailto:atindra@cs.stanford.edu)*
+*Stanford University · University of Washington · Carnegie Mellon University*
+
+*[atindra@cs.stanford.edu](mailto:atindra@cs.stanford.edu)*
 
 *June 2026*
 
