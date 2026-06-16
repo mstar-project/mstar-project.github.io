@@ -422,7 +422,7 @@ native rollout.
 
 ## Coming soon
 
-- **More models, coming soon:** more omni models (Ming-flash-omni-2.0, Qwen3.5-Omni), world models (Cosmos 3), and more VLAs — among others. Want a model supported? [Get in touch](mailto:atindra@cs.stanford.edu) or [open a GitHub issue](https://github.com/mstar-project/mstar/issues).
+- **More models, coming soon:** more omni models (Ming-flash-omni-2.0, Qwen2.5-Omni), world models (Cosmos 3), and more VLAs — among others. Want a model supported? [Get in touch](mailto:atindra@cs.stanford.edu) or [open a GitHub issue](https://github.com/mstar-project/mstar/issues).
 - **More parallelism, everywhere:** tensor-parallel sharding is live and rolling out across model families; sequence/context and DiT-specific parallelism are coming soon.
 - **Unified engine plugins:** converging the AR, encoder/decoder, and audio-codec engines behind one interface.
 
