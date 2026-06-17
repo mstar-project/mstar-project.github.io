@@ -12,7 +12,7 @@ lower RTF than both on the Qwen3-Omni TTS workload.*
 > `assets/img/` and fix the relative paths to match your CMS, and add a `rel="canonical"` link back to the
 > M\* website.
 
-*Atindra Jha, Naomi Sagan, Keisuke Kamahori, Xikai (Noah) Meng, Luke Zettlemoyer, Olivia Hsu, Jure Leskovec, Baris Kasikci, Stephanie Wang*
+*Atindra Jha, Naomi Sagan, Keisuke Kamahori, Xikai (Noah) Meng, Rohan Sanda, Luke Zettlemoyer, Olivia Hsu, Jure Leskovec, Baris Kasikci, Stephanie Wang*
 
 *Stanford University · University of Washington · Carnegie Mellon University*
 
