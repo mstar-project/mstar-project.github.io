@@ -20,7 +20,7 @@ lower RTF than both on the Qwen3-Omni TTS workload.*
 
 *June 2026*
 
-**[Read the paper (arXiv)](https://arxiv.org/abs/2606.12688) · [Code (GitHub)](https://github.com/mstar-project/mstar) · [Docs](https://mstar.stanford.edu/mstar/)**
+**[Read the paper (arXiv)](https://arxiv.org/abs/2606.12688) · [Code (GitHub)](https://github.com/mstar-project/mstar) · [Install (PyPI)](https://pypi.org/project/mstar-ai/) · [Docs](https://mstar.stanford.edu/mstar/)**
 
 ---
 
@@ -436,8 +436,8 @@ The bigger picture the Walk Graph opens up — three directions we are actively 
 
 ## Get the code
 
-**Try it:** install M\*, point it at a model with a placement config, and serve in one command (see the
-[quickstart](https://mstar.stanford.edu/mstar/quickstart.html)). We'd love your feedback: open a [GitHub issue](https://github.com/mstar-project/mstar/issues), or email
+**Try it:** `pip install mstar-ai`, point it at a model with a placement config, and serve in one command (see the
+[quickstart](https://mstar.stanford.edu/mstar/quickstart.html)). The import package and the CLI are called `mstar`. We'd love your feedback: open a [GitHub issue](https://github.com/mstar-project/mstar/issues), or email
 [atindra@cs.stanford.edu](mailto:atindra@cs.stanford.edu). If there's a model you'd like to see supported,
 tell us.
 
